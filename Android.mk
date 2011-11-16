@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+<<<<<<< HEAD
 LIBRPC := librpc
 ifeq ($(BOARD_USES_QCOM_LIBRPC),true)
   LIBRPC := librpc-qcom
