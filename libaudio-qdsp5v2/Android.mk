@@ -42,7 +42,7 @@ LOCAL_CFLAGS += -fno-short-enums
 
 #LOCAL_STATIC_LIBRARIES += libaudiointerface
 #ifeq ($(BOARD_HAVE_BLUETOOTH),true)
-#  LOCAL_SHARED_LIBRARIES += liba2dp
+#  LOCAL_SHARED_LIBRARIES += audio.a2dp.default
 #endif
 
 include $(BUILD_SHARED_LIBRARY)
