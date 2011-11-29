@@ -39,7 +39,7 @@ extern "C" {
 }
 
 
-namespace android {
+namespace android_audio_legacy {
 // ----------------------------------------------------------------------------
 
 AudioHardware::AudioHardware() :
@@ -63,17 +63,17 @@ AudioStreamOut* AudioHardware::openOutputStream(
         uint32_t devices, int *format, uint32_t *channels, uint32_t *sampleRate, status_t *status)
 {
     { // scope for the lock
-        Mutex::Autolock lock(mLock);
+        android::Mutex::Autolock lock(mLock);
 
-        // only one output stream allowed
+        AudioStreamOutQ5V2* out;
+       
         if (mOutput) {
-            if (status) {
-                *status = INVALID_OPERATION;
-            }
-            return 0;
-        }
-
-        AudioStreamOutQ5V2* out = new AudioStreamOutQ5V2();
+            // only one output stream allowed
+            out = mOutput;
+        } else {
+            // create new output stream
+           out = new AudioStreamOutMSM72xx();
+        }        
 
         status_t rc = out->set(this, devices, format, channels, sampleRate);
         if (rc) {
@@ -89,7 +89,7 @@ AudioStreamOut* AudioHardware::openOutputStream(
 }
 
 void AudioHardware::closeOutputStream(AudioStreamOut* out) {
-    Mutex::Autolock lock(mLock);
+    android::Mutex::Autolock lock(mLock);
     if (mOutput == 0 || mOutput != out) {
         LOGW("Attempt to close invalid output stream");
     }
