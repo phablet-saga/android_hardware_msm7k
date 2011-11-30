@@ -25,7 +25,7 @@
 
 #include <hardware_legacy/AudioHardwareBase.h>
 
-namespace android_audio_legacy {
+namespace android {
 
 #define CODEC_TYPE_PCM 0
 #define PCM_FILL_BUFFER_COUNT 1
@@ -118,9 +118,6 @@ private:
         virtual String8     getParameters(const String8& keys);
                 uint32_t    devices() { return mDevices; }
         virtual status_t    getRenderPosition(uint32_t *dspFrames);
-        virtual status_t    addAudioEffect(effect_handle_t effect){return INVALID_OPERATION;}
-        virtual status_t    removeAudioEffect(effect_handle_t effect){return INVALID_OPERATION;}
-        
 
     private:
                 AudioHardware* mHardware;
@@ -138,7 +135,7 @@ private:
             bool        mMicMute;
 
             AudioStreamOutQ5V2*  mOutput;
-            android::Mutex       mLock;
+            Mutex       mLock;
 };
 
 

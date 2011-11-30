@@ -216,15 +216,12 @@ int mapFrameBufferLocked(struct private_module_t* module)
     if (ioctl(fd, FBIOGET_VSCREENINFO, &info) == -1)
         return -errno;
 
-/*
     int refreshRate = 1000000000000000LLU /
     (
             uint64_t( info.upper_margin + info.lower_margin + info.yres )
             * ( info.left_margin  + info.right_margin + info.xres )
             * info.pixclock
     );
-*/
-    int refreshRate = 0;
 
     if (refreshRate == 0) {
         // bleagh, bad info from the driver
