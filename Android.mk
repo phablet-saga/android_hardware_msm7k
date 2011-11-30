@@ -14,10 +14,13 @@
 # limitations under the License.
 #
 
-common_msm_dirs := liblights librpc libstagefrighthw
-msm7k_dirs := $(common_msm_dirs) boot libaudio libcopybit dspcrashd
-qsd8k_dirs := $(common_msm_dirs) libaudio-qsd8k dspcrashd libcopybit
-msm7x30_dirs := $(common_msm_dirs) libaudio-msm7x30 liboverlay libcopybit libsensors
+common_msm_dirs := libcopybit liblights libopencorehw librpc libstagefrighthw
+msm7k_dirs := $(common_msm_dirs) boot libgralloc libaudio
+qsd8k_dirs := $(common_msm_dirs) libaudio-qsd8k dspcrashd
+#msm7x30_dirs := $(commom_msm_dirs) liblights libgralloc-qsd8k librpc libaudio-qdsp5v2
+#msm7x30_dirs := $(commom_msm_dirs) liblights libaudio-qdsp5v2 librpc
+#msm7x30_dirs := $(commom_msm_dirs) liblights libaudio librpc
+msm7x30_dirs := $(commom_msm_dirs) liblights libaudio-msm7x30 librpc
 
 #For Dragon Board APQ8060, ALSA ADUIO is used for WOLFSON CODEC
 ifeq ($(strip $(BOARD_USES_ALSA_AUDIO)),true)
