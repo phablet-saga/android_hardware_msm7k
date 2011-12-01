@@ -33,7 +33,7 @@ endif
 msm7x27a_dirs := $(common_msm_dirs) boot libaudio-msm7x27a dspcrashd
 msm8960_dirs := $(common_msm_dirs) dspcrashd
 
-ifeq ($(call is-board-platform-in-list,$(MSM7K_BOARD_PLATFORMS)),true)
+# ifeq ($(call is-board-platform-in-list,$(MSM7K_BOARD_PLATFORMS)),true)
   ifeq ($(call is-chipset-in-board-platform,msm7x30),true)
     include $(call all-named-subdir-makefiles,$(msm7x30_dirs))
   else
@@ -54,4 +54,4 @@ ifeq ($(call is-board-platform-in-list,$(MSM7K_BOARD_PLATFORMS)),true)
       endif
     endif
   endif
-endif
+# endif
