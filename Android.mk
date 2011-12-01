@@ -33,23 +33,25 @@ endif
 msm7x27a_dirs := $(common_msm_dirs) boot libaudio-msm7x27a dspcrashd
 msm8960_dirs := $(common_msm_dirs) dspcrashd
 
-ifeq ($(call is-chipset-in-board-platform,msm7x30),true)
-  include $(call all-named-subdir-makefiles,$(msm7x30_dirs))
-else
-  ifeq ($(call is-board-platform,msm7627a),true)
-    include $(call all-named-subdir-makefiles,$(msm7x27a_dirs))
+ifeq ($(call is-board-platform-in-list,$(MSM7K_BOARD_PLATFORMS)),true)
+  ifeq ($(call is-chipset-in-board-platform,msm7x30),true)
+    include $(call all-named-subdir-makefiles,$(msm7x30_dirs))
   else
-    include $(call all-named-subdir-makefiles,$(msm7k_dirs))
+    ifeq ($(call is-board-platform,msm7627a),true)
+      include $(call all-named-subdir-makefiles,$(msm7x27a_dirs))
+    else
+      include $(call all-named-subdir-makefiles,$(msm7k_dirs))
+    endif
   endif
-endif
-ifeq ($(TARGET_BOARD_PLATFORM),qsd8k)
-  include $(call all-named-subdir-makefiles,$(qsd8k_dirs))
-else
-  ifeq ($(TARGET_BOARD_PLATFORM),msm8660)
-    include $(call all-named-subdir-makefiles,$(msm8660_dirs))
+  ifeq ($(TARGET_BOARD_PLATFORM),qsd8k)
+    include $(call all-named-subdir-makefiles,$(qsd8k_dirs))
   else
-    ifeq ($(TARGET_BOARD_PLATFORM),msm8960)
-      include $(call all-named-subdir-makefiles,$(msm8960_dirs))
+    ifeq ($(TARGET_BOARD_PLATFORM),msm8660)
+      include $(call all-named-subdir-makefiles,$(msm8660_dirs))
+    else
+      ifeq ($(TARGET_BOARD_PLATFORM),msm8960)
+        include $(call all-named-subdir-makefiles,$(msm8960_dirs))
+      endif
     endif
   endif
 endif
