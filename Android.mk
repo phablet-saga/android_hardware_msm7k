@@ -22,8 +22,7 @@ endif
 common_msm_dirs := liblights $(LIBRPC) libstagefrighthw
 msm7k_dirs := $(common_msm_dirs) boot libaudio libcopybit dspcrashd
 qsd8k_dirs := $(common_msm_dirs) libaudio-qsd8k dspcrashd libcopybit
-# msm7x30_dirs := $(common_msm_dirs) libsensors
-msm7x30_dirs := $(common_msm_dirs) libgralloc-qds8 libsensors
+msm7x30_dirs := $(common_msm_dirs) libaudio-msm7x30 liboverlay libcopybit libsensors
 
 #For Dragon Board APQ8060, ALSA ADUIO is used for WOLFSON CODEC
 ifeq ($(strip $(BOARD_USES_ALSA_AUDIO)),true)
@@ -34,7 +33,7 @@ endif
 msm7x27a_dirs := $(common_msm_dirs) boot libaudio-msm7x27a dspcrashd
 msm8960_dirs := $(common_msm_dirs) dspcrashd
 
-# ifeq ($(call is-board-platform-in-list,$(MSM7K_BOARD_PLATFORMS)),true)
+ifeq ($(call is-board-platform-in-list,$(MSM7K_BOARD_PLATFORMS)),true)
   ifeq ($(call is-chipset-in-board-platform,msm7x30),true)
     include $(call all-named-subdir-makefiles,$(msm7x30_dirs))
   else
@@ -44,6 +43,7 @@ msm8960_dirs := $(common_msm_dirs) dspcrashd
       include $(call all-named-subdir-makefiles,$(msm7k_dirs))
     endif
   endif
+else
   ifeq ($(TARGET_BOARD_PLATFORM),qsd8k)
     include $(call all-named-subdir-makefiles,$(qsd8k_dirs))
   else
@@ -51,8 +51,8 @@ msm8960_dirs := $(common_msm_dirs) dspcrashd
       include $(call all-named-subdir-makefiles,$(msm8660_dirs))
     else
       ifeq ($(TARGET_BOARD_PLATFORM),msm8960)
-        include $(call all-named-subdir-makefiles,$(msm8960_dirs))
+         include $(call all-named-subdir-makefiles,$(msm8960_dirs))
       endif
     endif
   endif
-# endif
+endif

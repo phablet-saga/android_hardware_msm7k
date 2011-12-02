@@ -20,7 +20,7 @@
 #include "AudioPolicyManager.h"
 #include <media/mediarecorder.h>
 
-namespace android_audio_legacy {
+namespace android {
 
 
 // Max volume for streams when playing over bluetooth SCO device while in call: -18dB
