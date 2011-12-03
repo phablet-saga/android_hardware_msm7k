@@ -20,12 +20,12 @@ ifeq ($(BOARD_USES_QCOM_LIBRPC),true)
 endif
 
 common_msm_dirs := liblights $(LIBRPC) libstagefrighthw
-msm7k_dirs := $(common_msm_dirs) boot libaudio libcopybit dspcrashd
-qsd8k_dirs := $(common_msm_dirs) libaudio-qsd8k dspcrashd libcopybit
-#msm7x30_dirs := $(common_msm_dirs) liblights libgralloc-qsd8k liboverlay libcopybit libsensors
-#msm7x30_dirs := $(common_msm_dirs) liblights libaudio-qdsp5v2 liboverlay libcopybit libsensors
-#msm7x30_dirs := $(common_msm_dirs) liblights libaudio liboverlay libcopybit libsensors
-msm7x30_dirs := $(common_msm_dirs) libaudio-msm7x30 liboverlay libcopybit libsensors
+msm7k_dirs := $(common_msm_dirs) boot libaudio dspcrashd
+qsd8k_dirs := $(common_msm_dirs) libaudio-qsd8k dspcrashd
+#msm7x30_dirs := $(common_msm_dirs) liblights libgralloc-qsd8k liboverlay libsensors
+#msm7x30_dirs := $(common_msm_dirs) liblights libaudio-qdsp5v2 liboverlay libsensors
+#msm7x30_dirs := $(common_msm_dirs) liblights libaudio liboverlay libsensors
+msm7x30_dirs := $(common_msm_dirs) libaudio-msm7x30 liboverlay libsensors
 
 #For Dragon Board APQ8060, ALSA ADUIO is used for WOLFSON CODEC
 ifeq ($(strip $(BOARD_USES_ALSA_AUDIO)),true)
