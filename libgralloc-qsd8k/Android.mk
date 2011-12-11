@@ -14,15 +14,13 @@
 
 LOCAL_PATH := $(call my-dir)
 
-# HAL module implemenation stored in
+# HAL module implemenation, not prelinked and stored in
 # hw/<OVERLAY_HARDWARE_MODULE_ID>.<ro.product.board>.so
 include $(CLEAR_VARS)
-
+LOCAL_MODULE_TAGS := optional
+LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_SHARED_LIBRARIES := liblog libcutils libGLESv1_CM
-
-LOCAL_C_INCLUDES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
-LOCAL_ADDITIONAL_DEPENDENCIES += $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 LOCAL_SRC_FILES := 	\
 	allocator.cpp 	\
@@ -31,13 +29,18 @@ LOCAL_SRC_FILES := 	\
 	gralloc.cpp		\
 	mapper.cpp		\
 	pmemalloc.cpp
-	
+
 LOCAL_MODULE := gralloc.$(TARGET_BOARD_PLATFORM)
-LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS:= -DLOG_TAG=\"$(TARGET_BOARD_PLATFORM).gralloc\"
-ifeq ($(TARGET_GRALLOC_USES_ASHMEM),true)
-LOCAL_CFLAGS += -DUSE_ASHMEM
+
+ifeq ($(BOARD_USE_QCOM_PMEM),true)
+  LOCAL_CFLAGS += -DUSE_QCOM_PMEM
 endif
+
+ifeq ($(BOARD_USE_FRAMEBUFFER_ALPHA_CHANNEL),true)
+  LOCAL_CFLAGS += -DUSE_FRAMEBUFFER_ALPHA_CHANNEL
+endif
+
 include $(BUILD_SHARED_LIBRARY)
 
 # Build a host library for testing
@@ -49,7 +52,6 @@ LOCAL_SRC_FILES :=		\
 
 LOCAL_MODULE_TAGS := tests
 LOCAL_MODULE := libgralloc_qsd8k_host
-LOCAL_MODULE_TAGS := optional
 LOCAL_CFLAGS:= -DLOG_TAG=\"gralloc-qsd8k\"
 include $(BUILD_HOST_STATIC_LIBRARY)
 endif
