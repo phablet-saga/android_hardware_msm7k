@@ -16,8 +16,8 @@
 ** limitations under the License.
 */
 
-#define LOG_NDEBUG 0
-//#define LOG_NDDEBUG 0
+//#define LOG_NDEBUG 0
+#define LOG_NDDEBUG 0
 #define LOG_TAG "AudioHardwareMSM7X30"
 
 #include <math.h>
@@ -63,11 +63,6 @@ extern "C" {
 #define EVRC_FRAME_SIZE 23
 #define QCELP_FRAME_SIZE 35
 #endif
-
-
-// Unimplemented.
-#define AUDIO_GET_AAC_ENC_CONFIG 0
-#define AUDIO_SET_AAC_ENC_CONFIG 1
 
 namespace android {
 
@@ -2975,38 +2970,38 @@ status_t AudioHardware::AudioStreamInMSM72xx::set(
         LOGE("The Config buffer size is %d", config.buffer_size);
         LOGE("The Config buffer count is %d", config.buffer_count);
 
-        //struct msm_audio_aac_enc_config aac_enc_cfg;
-        //if (ioctl(mFd, AUDIO_GET_AAC_ENC_CONFIG, &aac_enc_cfg)) {
-        //    LOGE("Error: AUDIO_GET_AAC_ENC_CONFIG failed");
-        //    goto Error;
-        //}
+        struct msm_audio_aac_enc_config aac_enc_cfg;
+        if (ioctl(mFd, AUDIO_GET_AAC_ENC_CONFIG, &aac_enc_cfg)) {
+            LOGE("Error: AUDIO_GET_AAC_ENC_CONFIG failed");
+            goto Error;
+        }
 
-        //LOGV("The Config channels is %d", aac_enc_cfg.channels);
-        //LOGV("The Config sample_rate is %d", aac_enc_cfg.sample_rate);
-        //LOGV("The Config bit_rate is %d", aac_enc_cfg.bit_rate);
-        //LOGV("The Config stream_format is %d", aac_enc_cfg.stream_format);
+        LOGV("The Config channels is %d", aac_enc_cfg.channels);
+        LOGV("The Config sample_rate is %d", aac_enc_cfg.sample_rate);
+        LOGV("The Config bit_rate is %d", aac_enc_cfg.bit_rate);
+        LOGV("The Config stream_format is %d", aac_enc_cfg.stream_format);
 
         mDevices = devices;
         mChannels = *pChannels;
-        //aac_enc_cfg.sample_rate = mSampleRate = *pRate;
+        aac_enc_cfg.sample_rate = mSampleRate = *pRate;
         mFormat = *pFormat;
         mBufferSize = 2048;
-        //if (*pChannels & (android_audio_legacy::AudioSystem::CHANNEL_IN_MONO))
-        //    aac_enc_cfg.channels = 1;
-        //else if (*pChannels & (android_audio_legacy::AudioSystem::CHANNEL_IN_STEREO))
-        //    aac_enc_cfg.channels = 2;
+        if (*pChannels & (android_audio_legacy::AudioSystem::CHANNEL_IN_MONO))
+            aac_enc_cfg.channels = 1;
+        else if (*pChannels & (android_audio_legacy::AudioSystem::CHANNEL_IN_STEREO))
+            aac_enc_cfg.channels = 2;
 
-        //aac_enc_cfg.bit_rate = 128000;
+        aac_enc_cfg.bit_rate = 128000;
 
-        //LOGV("Setting the Config channels is %d", aac_enc_cfg.channels);
-        //LOGV("Setting the Config sample_rate is %d", aac_enc_cfg.sample_rate);
-        //LOGV("Setting the Config bit_rate is %d", aac_enc_cfg.bit_rate);
-        //LOGV("Setting the Config stream_format is %d", aac_enc_cfg.stream_format);
+        LOGV("Setting the Config channels is %d", aac_enc_cfg.channels);
+        LOGV("Setting the Config sample_rate is %d", aac_enc_cfg.sample_rate);
+        LOGV("Setting the Config bit_rate is %d", aac_enc_cfg.bit_rate);
+        LOGV("Setting the Config stream_format is %d", aac_enc_cfg.stream_format);
 
-        //if (ioctl(mFd, AUDIO_SET_AAC_ENC_CONFIG, &aac_enc_cfg)) {
-        //    LOGE("Error: AUDIO_SET_AAC_ENC_CONFIG failed");
-        //    goto Error;
-        //}
+        if (ioctl(mFd, AUDIO_SET_AAC_ENC_CONFIG, &aac_enc_cfg)) {
+            LOGE("Error: AUDIO_SET_AAC_ENC_CONFIG failed");
+            goto Error;
+        }
     }
     /* mHardware->setMicMute_nosync(false); */
     mState = AUDIO_INPUT_OPENED;
