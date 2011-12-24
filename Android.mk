@@ -14,40 +14,39 @@
 # limitations under the License.
 #
 
-common_msm_dirs := liblights librpc libstagefrighthw
-msm7k_dirs := $(common_msm_dirs) boot libaudio dspcrashd
-qsd8k_dirs := $(common_msm_dirs) libaudio-qsd8k dspcrashd
-msm7x30_dirs := $(common_msm_dirs) libaudio-msm7x30 liboverlay libsensors libgralloc-qsd8k
+ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
 
-#For Dragon Board APQ8060, ALSA ADUIO is used for WOLFSON CODEC
-ifeq ($(strip $(BOARD_USES_ALSA_AUDIO)),true)
-  msm8660_dirs := $(common_msm_dirs) dspcrashd
+ifneq ($(BOARD_USES_QCOM_LEGACY),true)
+
+    common_msm_dirs := liblights
+    qsd8k_dirs := $(common_msm_dirs) dspcrashd libcopybit
+    msm7x30_dirs := $(common_msm_dirs) liboverlay
+
 else
-  msm8660_dirs := $(common_msm_dirs) libaudio-msm8660 dspcrashd
-endif
-msm7x27a_dirs := $(common_msm_dirs) boot libaudio-msm7x27a dspcrashd
-msm8960_dirs := $(common_msm_dirs) dspcrashd
 
-#ifeq ($(TARGET_BOARD_PLATFORM),msm7k)
-  ifeq ($(TARGET_BOARD_PLATFORM),msm7x30)
+    common_msm_dirs := libcopybit liblights libopencorehw librpc libstagefrighthw
+    qsd8k_dirs := $(common_msm_dirs) libaudio-qsd8 dspcrashd libgralloc-qsd8k
+    msm7x30_dirs := $(common_msm_dirs) libaudio-msm7x30 liboverlay libgralloc-qsd8k
+
+endif
+
+msm7x27a_dirs := $(common_msm_dirs) boot dspcrashd
+msm7k_dirs := $(common_msm_dirs) boot libaudio libcopybit dspcrashd
+
+ifeq ($(TARGET_BOARD_PLATFORM),msm7x30)
     include $(call all-named-subdir-makefiles,$(msm7x30_dirs))
-  else
-    ifeq ($(TARGET_BOARD_PLATFORM),msm7627a)
-      include $(call all-named-subdir-makefiles,$(msm7x27a_dirs))
-    else
-      include $(call all-named-subdir-makefiles,$(msm7k_dirs))
-    endif
-  endif
-#else
-  ifeq ($(TARGET_BOARD_PLATFORM),qsd8k)
+endif
+
+ifeq ($(TARGET_BOARD_PLATFORM),qsd8k)
     include $(call all-named-subdir-makefiles,$(qsd8k_dirs))
-  else
-    ifeq ($(TARGET_BOARD_PLATFORM),msm8660)
-      include $(call all-named-subdir-makefiles,$(msm8660_dirs))
-    else
-      ifeq ($(TARGET_BOARD_PLATFORM),msm8960)
-         include $(call all-named-subdir-makefiles,$(msm8960_dirs))
-      endif
-    endif
-  endif
-#endif
+endif
+
+ifeq ($(TARGET_BOARD_PLATFORM), msm7x27a)
+   include $(call all-named-subdir-makefiles,$(msm7x27a_dirs))
+endif
+
+ifeq ($(TARGET_BOARD_PLATFORM), msm7x27)
+  include $(call all-named-subdir-makefiles,$(msm7k_dirs))
+endif
+
+endif
