@@ -22,6 +22,10 @@ ifneq ($(BOARD_USES_QCOM_LEGACY),true)
     qsd8k_dirs := $(common_msm_dirs) dspcrashd libcopybit
     msm7x30_dirs := $(common_msm_dirs) liboverlay
 
+ifeq ($(BOARD_USES_AUDIO_LEGACY),true)
+    msm7x30_dirs += libaudio-msm7x30
+endif
+
 else
 
     common_msm_dirs := libcopybit liblights libopencorehw librpc libstagefrighthw
@@ -36,6 +40,7 @@ msm7k_dirs := $(common_msm_dirs) boot libaudio libcopybit dspcrashd
 ifeq ($(TARGET_BOARD_PLATFORM),msm7x30)
     include $(call all-named-subdir-makefiles,$(msm7x30_dirs))
 endif
+
 
 ifeq ($(TARGET_BOARD_PLATFORM),qsd8k)
     include $(call all-named-subdir-makefiles,$(qsd8k_dirs))
