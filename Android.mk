@@ -20,11 +20,7 @@ ifneq ($(BOARD_USES_QCOM_LEGACY),true)
 
     common_msm_dirs := liblights
     qsd8k_dirs := $(common_msm_dirs) dspcrashd libcopybit
-    msm7x30_dirs := $(common_msm_dirs) liboverlay
-
-ifeq ($(BOARD_USES_AUDIO_LEGACY),true)
-    msm7x30_dirs += libaudio-msm7x30
-endif
+    msm7x30_dirs := $(common_msm_dirs) liboverlay libaudio-msm7x30
 
 else
 
