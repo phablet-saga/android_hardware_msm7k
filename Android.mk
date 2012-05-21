@@ -18,7 +18,7 @@ ifeq ($(BOARD_USES_QCOM_HARDWARE),true)
 
 ifneq ($(BOARD_USES_QCOM_LEGACY),true)
 
-    common_msm_dirs := liblights libstagefrighthw
+    common_msm_dirs := libstagefrighthw
     qsd8k_dirs := $(common_msm_dirs) dspcrashd libcopybit
     msm7x30_dirs := $(common_msm_dirs) liboverlay
 
