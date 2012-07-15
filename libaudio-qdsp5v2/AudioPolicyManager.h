@@ -22,8 +22,9 @@
 #include <utils/KeyedVector.h>
 #include <hardware_legacy/AudioPolicyManagerBase.h>
 
+using namespace android;
 
-namespace android {
+namespace android_audio_legacy {
 
 // ----------------------------------------------------------------------------
 
@@ -48,8 +49,8 @@ protected:
 
         // return appropriate device for streams handled by the specified strategy according to current
         // phone state, connected devices...
-        virtual uint32_t getDeviceForStrategy(routing_strategy strategy, bool fromCache = true);
-        virtual float computeVolume(int stream, int index, audio_io_handle_t output, uint32_t device);
+        virtual audio_devices_t getDeviceForStrategy(routing_strategy strategy, bool fromCache = true);
+        virtual float computeVolume(int stream, int index, audio_io_handle_t output, audio_devices_t device);
 };
 
 };

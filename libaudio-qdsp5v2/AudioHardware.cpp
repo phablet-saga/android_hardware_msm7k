@@ -35,11 +35,13 @@
 #include <media/AudioRecord.h>
 
 extern "C" {
-#include "msm_audio.h"
+#include <linux/msm_audio.h>
 }
 
 
 namespace android {
+
+using namespace android_audio_legacy;
 // ----------------------------------------------------------------------------
 
 AudioHardware::AudioHardware() :

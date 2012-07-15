@@ -27,6 +27,8 @@
 
 namespace android {
 
+using namespace android_audio_legacy;
+
 #define CODEC_TYPE_PCM 0
 #define PCM_FILL_BUFFER_COUNT 1
 #define AUDIO_HW_NUM_OUT_BUF 2  // Number of buffers in audio driver for output

@@ -20,7 +20,9 @@
 #include "AudioPolicyManager.h"
 #include <media/mediarecorder.h>
 
-namespace android {
+using namespace android;
+
+namespace android_audio_legacy {
 
 
 // Max volume for streams when playing over bluetooth SCO device while in call: -18dB
@@ -49,14 +51,14 @@ extern "C" void destroyAudioPolicyManager(AudioPolicyInterface *interface)
 // ---
 
 
-uint32_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, bool fromCache)
+audio_devices_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, bool fromCache)
 {
     uint32_t device = 0;
 
     if (fromCache) {
         device = mDeviceForStrategy[strategy];
         ALOGV("getDeviceForStrategy() from cache strategy %d, device %x", strategy, device);
-        return device;
+        return (audio_devices_t)device;
     }
 
     switch (strategy) {
@@ -230,10 +232,10 @@ uint32_t AudioPolicyManager::getDeviceForStrategy(routing_strategy strategy, boo
     }
 
     ALOGV("getDeviceForStrategy() strategy %d, device %x", strategy, device);
-    return device;
+    return (audio_devices_t)device;
 }
 
-float AudioPolicyManager::computeVolume(int stream, int index, audio_io_handle_t output, uint32_t device)
+float AudioPolicyManager::computeVolume(int stream, int index, audio_io_handle_t output, audio_devices_t device)
 {
     // force volume on A2DP output to maximum if playing through car dock speakers
     // as volume is applied on the car dock and controlled via car dock keys.
